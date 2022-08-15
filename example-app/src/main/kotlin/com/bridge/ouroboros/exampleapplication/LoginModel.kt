@@ -6,7 +6,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-data class ExampleModel(
+data class LoginModel(
     val username: String = "",
     val password: String = "",
     val usernameValid: Boolean = true,
@@ -20,25 +20,25 @@ data class SnackbarMessage(
     @StringRes val messageRes: Int
 )
 
-val ExampleInit: LoopInitializer<ExampleModel, ExampleEffect> =  {
-    Next.Change(ExampleModel(loading = true), ExampleEffect.SimulateInitialLoad)
+val LoginInit: LoopInitializer<LoginModel, LoginEffect> =  {
+    Next.Change(LoginModel(loading = true), LoginEffect.SimulateInitialLoad)
 }
 
-sealed class ExampleEvent : ActionableEvent<ExampleModel, ExampleEffect> {
-    object LoadCompleted : ExampleEvent() {
-        override fun perform(model: ExampleModel) = change(model.copy(loading = false))
+sealed class LoginEvent : ActionableEvent<LoginModel, LoginEffect> {
+    object LoadCompleted : LoginEvent() {
+        override fun perform(model: LoginModel) = change(model.copy(loading = false))
     }
 
-    data class UsernameChanged(val value: String) : ExampleEvent() {
-        override fun perform(model: ExampleModel) = change(model.copy(username = value))
+    data class UsernameChanged(val value: String) : LoginEvent() {
+        override fun perform(model: LoginModel) = change(model.copy(username = value))
     }
 
-    data class PasswordChanged(val value: String) : ExampleEvent() {
-        override fun perform(model: ExampleModel) = change(model.copy(password = value))
+    data class PasswordChanged(val value: String) : LoginEvent() {
+        override fun perform(model: LoginModel) = change(model.copy(password = value))
     }
 
-    object LoginClicked : ExampleEvent() {
-        override fun perform(model: ExampleModel): Next.Change<ExampleModel, ExampleEffect> {
+    object LoginClicked : LoginEvent() {
+        override fun perform(model: LoginModel): Next.Change<LoginModel, LoginEffect> {
             val clearedValidation = model.copy(usernameValid = true, passwordValid = true)
 
             return when {
@@ -46,7 +46,7 @@ sealed class ExampleEvent : ActionableEvent<ExampleModel, ExampleEffect> {
                 model.password.isBlank() -> change(clearedValidation.copy(passwordValid = false))
                 else -> change(
                     clearedValidation.copy(loading = true),
-                    ExampleEffect.PerformLogin(
+                    LoginEffect.PerformLogin(
                         username = model.username, password = model.password
                     )
                 )
@@ -54,8 +54,8 @@ sealed class ExampleEvent : ActionableEvent<ExampleModel, ExampleEffect> {
         }
     }
 
-    object LoginSucceeded : ExampleEvent() {
-        override fun perform(model: ExampleModel) = change(
+    object LoginSucceeded : LoginEvent() {
+        override fun perform(model: LoginModel) = change(
             model.copy(
                 loading = false,
                 messages = model.messages + SnackbarMessage(messageRes = R.string.login_succeed)
@@ -63,8 +63,8 @@ sealed class ExampleEvent : ActionableEvent<ExampleModel, ExampleEffect> {
         )
     }
 
-    object LoginFailed : ExampleEvent() {
-        override fun perform(model: ExampleModel) = change(
+    object LoginFailed : LoginEvent() {
+        override fun perform(model: LoginModel) = change(
             model.copy(
                 loading = false,
                 messages = model.messages + SnackbarMessage(messageRes = R.string.login_failed)
@@ -72,8 +72,8 @@ sealed class ExampleEvent : ActionableEvent<ExampleModel, ExampleEffect> {
         )
     }
 
-    data class ToastShown(val id: Long) : ExampleEvent() {
-        override fun perform(model: ExampleModel) = change(
+    data class ToastShown(val id: Long) : LoginEvent() {
+        override fun perform(model: LoginModel) = change(
             model.copy(
                 messages = model.messages.filterNot { it.id == id }
             )
@@ -81,24 +81,24 @@ sealed class ExampleEvent : ActionableEvent<ExampleModel, ExampleEffect> {
     }
 }
 
-sealed class ExampleEffect : ExecutableEffect<ExampleEvent, ExampleEffect.State>() {
-    object SimulateInitialLoad : ExampleEffect() {
-        override fun State.perform(emit: EventConsumer<ExampleEvent>) {
+sealed class LoginEffect : ExecutableEffect<LoginEvent, LoginEffect.State>() {
+    object SimulateInitialLoad : LoginEffect() {
+        override fun State.perform(emit: EventConsumer<LoginEvent>) {
             launch {
                 delay(3000)
-                emit(ExampleEvent.LoadCompleted)
+                emit(LoginEvent.LoadCompleted)
             }
         }
     }
 
-    data class PerformLogin(val username: String, val password: String) : ExampleEffect() {
-        override fun State.perform(emit: EventConsumer<ExampleEvent>) {
+    data class PerformLogin(val username: String, val password: String) : LoginEffect() {
+        override fun State.perform(emit: EventConsumer<LoginEvent>) {
             launch {
                 try {
                     loginService.login(username, password)
-                    emit(ExampleEvent.LoginSucceeded)
+                    emit(LoginEvent.LoginSucceeded)
                 } catch (e: Exception) {
-                    emit(ExampleEvent.LoginFailed)
+                    emit(LoginEvent.LoginFailed)
                 }
             }
         }

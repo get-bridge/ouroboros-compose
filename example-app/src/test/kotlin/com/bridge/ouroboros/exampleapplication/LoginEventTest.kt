@@ -7,10 +7,10 @@ import io.kotest.matchers.collections.shouldHaveSingleElement
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 
-class ExampleEventTest {
+class LoginEventTest {
     @Test
     fun `Load Completed clears loading flag`() {
-        ExampleModel(loading = true) receives ExampleEvent.LoadCompleted matches {
+        LoginModel(loading = true) receives LoginEvent.LoadCompleted matches {
             mustHaveModel.loading shouldBe false
         }
     }
@@ -18,7 +18,7 @@ class ExampleEventTest {
     @Test
     fun `Username Changed will update username`() {
         val value = "newusername"
-        ExampleModel(username = "oldusername") receives ExampleEvent.UsernameChanged(value) matches {
+        LoginModel(username = "oldusername") receives LoginEvent.UsernameChanged(value) matches {
             mustHaveModel.username shouldBe value
         }
     }
@@ -26,21 +26,21 @@ class ExampleEventTest {
     @Test
     fun `Password Changed will update password`() {
         val value = "newpassword"
-        ExampleModel(password = value) receives ExampleEvent.PasswordChanged(value) matches {
+        LoginModel(password = value) receives LoginEvent.PasswordChanged(value) matches {
             mustHaveModel.password shouldBe value
         }
     }
 
     @Test
     fun `Login Clicked will fail to validate with blank username`() {
-        ExampleModel(username = "") receives ExampleEvent.LoginClicked matches {
+        LoginModel(username = "") receives LoginEvent.LoginClicked matches {
             mustHaveModel.usernameValid shouldBe false
         }
     }
 
     @Test
     fun `Login Clicked will fail to validate with blank password`() {
-        ExampleModel(username = "something", password = "") receives ExampleEvent.LoginClicked matches {
+        LoginModel(username = "something", password = "") receives LoginEvent.LoginClicked matches {
             mustHaveModel.passwordValid shouldBe false
         }
     }
@@ -50,12 +50,12 @@ class ExampleEventTest {
         val username = "someuser"
         val password = "somepass"
 
-        ExampleModel(
+        LoginModel(
             username = username,
             password = password
-        ) receives ExampleEvent.LoginClicked matches {
+        ) receives LoginEvent.LoginClicked matches {
             mustHaveModel.loading shouldBe true
-            newEffects shouldContain ExampleEffect.PerformLogin(
+            newEffects shouldContain LoginEffect.PerformLogin(
                 username = username,
                 password = password
             )
@@ -64,7 +64,7 @@ class ExampleEventTest {
 
     @Test
     fun `Login Succeeded will clear loading flag and show snackbar message`() {
-        ExampleModel(loading = true) receives ExampleEvent.LoginSucceeded matches {
+        LoginModel(loading = true) receives LoginEvent.LoginSucceeded matches {
             mustHaveModel.loading shouldBe false
             mustHaveModel.messages.shouldHaveSingleElement {
                 it.messageRes == R.string.login_succeed
@@ -74,7 +74,7 @@ class ExampleEventTest {
 
     @Test
     fun `Login Failed will clear loading flag and show snackbar message`() {
-        ExampleModel(loading = true) receives ExampleEvent.LoginFailed matches {
+        LoginModel(loading = true) receives LoginEvent.LoginFailed matches {
             mustHaveModel.loading shouldBe false
             mustHaveModel.messages.shouldHaveSingleElement {
                 it.messageRes == R.string.login_failed

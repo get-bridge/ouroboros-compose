@@ -6,7 +6,7 @@ import io.kotest.matchers.collections.shouldContain
 import org.junit.Test
 import java.io.IOException
 
-class ExampleEffectTest {
+class LoginEffectTest {
 
     object SucceedingLoginService : LoginService {
         override suspend fun login(username: String, password: String) {}
@@ -20,28 +20,28 @@ class ExampleEffectTest {
 
     @Test
     fun `Simulate Initial Load will emit Load Completed`() {
-        ExampleEffect.SimulateInitialLoad runWith ExampleEffect.State() matches {
-            emittedEvents shouldContain ExampleEvent.LoadCompleted
+        LoginEffect.SimulateInitialLoad runWith LoginEffect.State() matches {
+            emittedEvents shouldContain LoginEvent.LoadCompleted
         }
     }
 
     @Test
     fun `Perform Login will emit Login Succeeded on login success`() {
-        ExampleEffect.PerformLogin(
+        LoginEffect.PerformLogin(
             username = "username",
             password = "password"
-        ) runWith ExampleEffect.State(SucceedingLoginService) matches {
-            emittedEvents shouldContain ExampleEvent.LoginSucceeded
+        ) runWith LoginEffect.State(SucceedingLoginService) matches {
+            emittedEvents shouldContain LoginEvent.LoginSucceeded
         }
     }
 
     @Test
     fun `Perform Login will emit Login Failed on login failure`() {
-        ExampleEffect.PerformLogin(
+        LoginEffect.PerformLogin(
             username = "username",
             password = "password"
-        ) runWith ExampleEffect.State(FailingLoginService) matches {
-            emittedEvents shouldContain ExampleEvent.LoginFailed
+        ) runWith LoginEffect.State(FailingLoginService) matches {
+            emittedEvents shouldContain LoginEvent.LoginFailed
         }
     }
 }

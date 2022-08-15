@@ -29,17 +29,17 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val loop = acquireLoop(
-                loopInitializer = ExampleInit,
-                effectStateFactory = ExampleEffect::State
+                loopInitializer = LoginInit,
+                effectStateFactory = LoginEffect::State
             )
 
-            ExampleScreen(model = loop.model, dispatchEvent = loop::dispatchEvent)
+            LoginScreen(model = loop.model, dispatchEvent = loop::dispatchEvent)
         }
     }
 }
 
 @Composable
-fun ExampleScreen(model: ExampleModel, dispatchEvent: EventConsumer<ExampleEvent>) {
+fun LoginScreen(model: LoginModel, dispatchEvent: EventConsumer<LoginEvent>) {
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
@@ -59,7 +59,7 @@ fun ExampleScreen(model: ExampleModel, dispatchEvent: EventConsumer<ExampleEvent
             val messageText = stringResource(id = message.messageRes)
             LaunchedEffect(message) {
                 scaffoldState.snackbarHostState.showSnackbar(messageText)
-                dispatchEvent(ExampleEvent.ToastShown(message.id))
+                dispatchEvent(LoginEvent.ToastShown(message.id))
             }
         }
 
@@ -88,7 +88,7 @@ fun ExampleScreen(model: ExampleModel, dispatchEvent: EventConsumer<ExampleEvent
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(id = R.string.username)) },
                     value = model.username,
-                    onValueChange = { value -> dispatchEvent(ExampleEvent.UsernameChanged(value)) },
+                    onValueChange = { value -> dispatchEvent(LoginEvent.UsernameChanged(value)) },
                     enabled = !model.loading,
                     isError = !model.usernameValid,
                     singleLine = true
@@ -98,7 +98,7 @@ fun ExampleScreen(model: ExampleModel, dispatchEvent: EventConsumer<ExampleEvent
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(id = R.string.password)) },
                     value = model.password,
-                    onValueChange = { value -> dispatchEvent(ExampleEvent.PasswordChanged(value)) },
+                    onValueChange = { value -> dispatchEvent(LoginEvent.PasswordChanged(value)) },
                     enabled = !model.loading,
                     visualTransformation = PasswordVisualTransformation(),
                     isError = !model.passwordValid,
@@ -108,7 +108,7 @@ fun ExampleScreen(model: ExampleModel, dispatchEvent: EventConsumer<ExampleEvent
                 Button(
                     modifier = Modifier.align(Alignment.End),
                     enabled = !model.loading,
-                    onClick = { dispatchEvent(ExampleEvent.LoginClicked) }) {
+                    onClick = { dispatchEvent(LoginEvent.LoginClicked) }) {
                     Text(text = stringResource(id = R.string.login))
                 }
             }
@@ -135,18 +135,18 @@ fun ExampleScreen(model: ExampleModel, dispatchEvent: EventConsumer<ExampleEvent
 
 @Composable
 @Preview
-fun ExampleScreenPreview() {
-    ExampleScreen(
-        model = ExampleModel(username = "someuser", password = "somepass"),
+fun LoginScreenPreview() {
+    LoginScreen(
+        model = LoginModel(username = "someuser", password = "somepass"),
         dispatchEvent = {}
     )
 }
 
 @Composable
 @Preview
-fun ExampleScreenLoadingPreview() {
-    ExampleScreen(
-        model = ExampleModel(username = "someuser", password = "somepass", loading = true),
+fun LoginScreenLoadingPreview() {
+    LoginScreen(
+        model = LoginModel(username = "someuser", password = "somepass", loading = true),
         dispatchEvent = {}
     )
 }

@@ -3,10 +3,6 @@ package com.bridge.ouroboros.exampleapplication
 import android.util.Log
 import kotlinx.coroutines.delay
 
-interface LoginService {
-    suspend fun login(username: String, password: String)
-}
-
 class DummyLoginService : LoginService {
 
     override suspend fun login(username: String, password: String) {
