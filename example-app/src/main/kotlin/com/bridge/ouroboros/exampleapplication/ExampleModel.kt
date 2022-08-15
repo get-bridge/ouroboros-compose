@@ -94,13 +94,17 @@ sealed class ExampleEffect : ExecutableEffect<ExampleEvent, ExampleEffect.State>
     data class PerformLogin(val username: String, val password: String) : ExampleEffect() {
         override fun State.perform(emit: EventConsumer<ExampleEvent>) {
             launch {
-                loginService.login(username, password)
-                emit(ExampleEvent.LoginSucceeded)
+                try {
+                    loginService.login(username, password)
+                    emit(ExampleEvent.LoginSucceeded)
+                } catch (e: Exception) {
+                    emit(ExampleEvent.LoginFailed)
+                }
             }
         }
     }
 
     class State(
-        val loginService: DummyLoginService = DummyLoginService()
+        val loginService: LoginService = DummyLoginService()
     )
 }
