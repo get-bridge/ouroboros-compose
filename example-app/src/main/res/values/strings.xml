@@ -1,0 +1,13 @@
+<!--
+  ~ Copyright (C) 2019 - present Instructure, Inc.
+  -->
+
+<resources>
+    <string name="app_name">OuroborosExampleApp</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="welcome">Welcome %1$s</string>
+    <string name="login">Login</string>
+    <string name="login_succeed">Login succeeded</string>
+    <string name="login_failed">Login failed</string>
+</resources>
