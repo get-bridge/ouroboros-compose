@@ -20,6 +20,11 @@ object Libs {
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
     }
 
+    object Kotest {
+        private const val version = "5.4.2"
+        const val assertions = "io.kotest:kotest-assertions-core:$version"
+    }
+
     object AndroidX {
         const val appcompat = "androidx.appcompat:appcompat:1.3.1"
 

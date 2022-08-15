@@ -24,6 +24,11 @@ class NextMatching<M, F>(private val next: Next<M, F>) {
             return next.effects
         }
 
+    val mustHaveModel: M get() {
+        modelAccessed = true
+        return checkNotNull(next.modelOrNull()) { "Expected model but there was none" }
+    }
+
     fun shouldHaveModel(model: M) {
         withClue("Expect new model to be $model") {
             newModel shouldBe model

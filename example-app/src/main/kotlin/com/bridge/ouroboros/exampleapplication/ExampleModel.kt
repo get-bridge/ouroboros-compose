@@ -81,9 +81,9 @@ sealed class ExampleEvent : ActionableEvent<ExampleModel, ExampleEffect> {
     }
 }
 
-sealed class ExampleEffect : ExecutableEffect<ExampleEvent, Unit>() {
+sealed class ExampleEffect : ExecutableEffect<ExampleEvent, ExampleEffect.State>() {
     object SimulateInitialLoad : ExampleEffect() {
-        override fun Unit.perform(emit: EventConsumer<ExampleEvent>) {
+        override fun State.perform(emit: EventConsumer<ExampleEvent>) {
             launch {
                 delay(3000)
                 emit(ExampleEvent.LoadCompleted)
@@ -92,11 +92,15 @@ sealed class ExampleEffect : ExecutableEffect<ExampleEvent, Unit>() {
     }
 
     data class PerformLogin(val username: String, val password: String) : ExampleEffect() {
-        override fun Unit.perform(emit: EventConsumer<ExampleEvent>) {
+        override fun State.perform(emit: EventConsumer<ExampleEvent>) {
             launch {
-                delay(1500)
+                loginService.login(username, password)
                 emit(ExampleEvent.LoginSucceeded)
             }
         }
     }
+
+    class State(
+        val loginService: DummyLoginService = DummyLoginService()
+    )
 }

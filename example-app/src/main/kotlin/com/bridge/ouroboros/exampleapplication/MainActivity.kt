@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val loop = acquireLoop(
                 loopInitializer = ExampleInit,
-                effectStateFactory = { }
+                effectStateFactory = ExampleEffect::State
             )
 
             ExampleScreen(model = loop.model, dispatchEvent = loop::dispatchEvent)

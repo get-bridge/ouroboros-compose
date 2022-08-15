@@ -77,6 +77,8 @@ dependencies {
     implementation Libs.material
 
     testImplementation Libs.junit
+    testImplementation Libs.Kotest.assertions
+    testImplementation project(':test')
 
     androidTestImplementation Libs.AndroidX.Test.Ext.junit
 }
