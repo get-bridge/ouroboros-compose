@@ -5,8 +5,8 @@
 package com.bridge.ouroboros.exampleapplication
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.bridge.ouroboros.compose.EventConsumer
 import com.bridge.ouroboros.compose.acquireLoop
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,84 +40,96 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun ExampleScreen(model: ExampleModel, dispatchEvent: EventConsumer<ExampleEvent>) {
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Text(
-                text = if (model.username.isBlank()) {
-                    stringResource(id = R.string.enter_your_credentials)
-                } else {
-                    stringResource(id = R.string.welcome, model.username)
-                },
-                style = MaterialTheme.typography.h6
-            )
+    val scaffoldState = rememberScaffoldState()
 
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(id = R.string.username)) },
-                value = model.username,
-                onValueChange = { value -> dispatchEvent(ExampleEvent.UsernameChanged(value)) },
-                enabled = !model.loading,
-                isError = !model.usernameValid,
-                singleLine = true
-            )
-
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(id = R.string.password)) },
-                value = model.password,
-                onValueChange = { value -> dispatchEvent(ExampleEvent.PasswordChanged(value)) },
-                enabled = !model.loading,
-                visualTransformation = PasswordVisualTransformation(),
-                isError = !model.passwordValid,
-                singleLine = true
-            )
-
-            Button(
-                modifier = Modifier.align(Alignment.End),
-                enabled = !model.loading,
-                onClick = { dispatchEvent(ExampleEvent.LoginClicked) }) {
-                Text(text = stringResource(id = R.string.login))
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar {
+                Text(
+                    modifier = Modifier.padding(start = 16.dp),
+                    text = stringResource(id = R.string.app_name),
+                    style = MaterialTheme.typography.h6
+                )
             }
         }
-
-        if (model.loading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.onSurface.copy(alpha = TextFieldDefaults.BackgroundOpacity))
-            ) {
-                Card(
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .offset(y = 60.dp),
-                    elevation = 4.dp
-                ) {
-                    CircularProgressIndicator(modifier = Modifier.padding(16.dp))
-                }
-            }
-        }
-
-        val snackbarState = remember { SnackbarHostState() }
-
+    ) { paddingValues ->
         if (model.messages.isNotEmpty()) {
             val message = model.messages.first()
             val messageText = stringResource(id = message.messageRes)
             LaunchedEffect(message) {
-                snackbarState.showSnackbar(messageText)
+                scaffoldState.snackbarHostState.showSnackbar(messageText)
                 dispatchEvent(ExampleEvent.ToastShown(message.id))
             }
         }
 
-        SnackbarHost(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            hostState = snackbarState
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(paddingValues)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Text(
+                    text = if (model.username.isBlank()) {
+                        stringResource(id = R.string.enter_your_credentials)
+                    } else {
+                        stringResource(id = R.string.welcome, model.username)
+                    },
+                    style = MaterialTheme.typography.h6
+                )
+
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(id = R.string.username)) },
+                    value = model.username,
+                    onValueChange = { value -> dispatchEvent(ExampleEvent.UsernameChanged(value)) },
+                    enabled = !model.loading,
+                    isError = !model.usernameValid,
+                    singleLine = true
+                )
+
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(id = R.string.password)) },
+                    value = model.password,
+                    onValueChange = { value -> dispatchEvent(ExampleEvent.PasswordChanged(value)) },
+                    enabled = !model.loading,
+                    visualTransformation = PasswordVisualTransformation(),
+                    isError = !model.passwordValid,
+                    singleLine = true
+                )
+
+                Button(
+                    modifier = Modifier.align(Alignment.End),
+                    enabled = !model.loading,
+                    onClick = { dispatchEvent(ExampleEvent.LoginClicked) }) {
+                    Text(text = stringResource(id = R.string.login))
+                }
+            }
+
+            if (model.loading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colors.onSurface.copy(alpha = TextFieldDefaults.BackgroundOpacity))
+                ) {
+                    Card(
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .offset(y = 60.dp),
+                        elevation = 4.dp
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                    }
+                }
+            }
+        }
     }
 }
 
