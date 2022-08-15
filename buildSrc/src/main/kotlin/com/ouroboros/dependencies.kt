@@ -1,21 +1,21 @@
 package com.ouroboros
 
 object Libs {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.2.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.2.2"
 
     const val junit = "junit:junit:4.13"
 
     const val material = "com.google.android.material:material:1.4.0"
 
     object Kotlin {
-        const val version = "1.6.10"
+        const val version = "1.7.0"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
         const val extensions = "org.jetbrains.kotlin:kotlin-android-extensions:$version"
     }
 
     object Coroutines {
-        private const val version = "1.6.0"
+        private const val version = "1.6.4"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
@@ -33,7 +33,7 @@ object Libs {
         const val navigationUi = "androidx.navigation:navigation-ui:2.3.5"
 
         object Compose {
-            const val version = "1.1.0"
+            const val version = "1.2.0"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val liveDataRuntime = "androidx.compose.runtime:runtime-livedata:$version"

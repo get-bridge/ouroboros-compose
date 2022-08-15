@@ -4,15 +4,17 @@
 
 import com.ouroboros.Libs
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
-    compileSdkVersion 31
+    compileSdk 33
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 31
+        minSdk 21
+        targetSdk 33
     }
 
     buildTypes {
@@ -41,7 +43,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
         allWarningsAsErrors = true
     }
 

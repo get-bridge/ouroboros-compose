@@ -120,7 +120,7 @@ inline fun <MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : Execut
     val viewModel =
         viewModel<LoopStateViewModel<MODEL, EVENT, EFFECT, EFFECT_STATE>>(factory = remember {
             object : ViewModelProvider.Factory {
-                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     val (model, effects) = loopInitializer()
                     val effectState = effectStateFactory()
 
