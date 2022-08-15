@@ -68,12 +68,10 @@ dependencies {
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.materialIconsExtended
     implementation Libs.AndroidX.Compose.uiTooling
-    implementation Libs.AndroidX.Compose.liveDataRuntime
 
     api Libs.Kotlin.stdlib
     api Libs.Coroutines.android
 
-    implementation Libs.AndroidX.coreKtx
     implementation Libs.AndroidX.activityCompose
     implementation Libs.AndroidX.appcompat
     implementation Libs.material
@@ -81,5 +79,4 @@ dependencies {
     testImplementation Libs.junit
 
     androidTestImplementation Libs.AndroidX.Test.Ext.junit
-    androidTestImplementation Libs.AndroidX.Test.espressoCore
 }
