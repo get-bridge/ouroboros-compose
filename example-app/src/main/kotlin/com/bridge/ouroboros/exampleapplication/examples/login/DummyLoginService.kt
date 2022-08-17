@@ -1,4 +1,4 @@
-package com.bridge.ouroboros.exampleapplication
+package com.bridge.ouroboros.exampleapplication.examples.login
 
 import android.util.Log
 import kotlinx.coroutines.delay

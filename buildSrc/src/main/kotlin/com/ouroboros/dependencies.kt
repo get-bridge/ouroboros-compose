@@ -20,16 +20,29 @@ object Libs {
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
     }
 
+    object Ktor {
+        private const val version = "2.1.0"
+        const val core = "io.ktor:ktor-client-core:$version"
+        const val android = "io.ktor:ktor-client-android:$version"
+        const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$version"
+        const val json = "io.ktor:ktor-serialization-kotlinx-json:$version"
+    }
+
     object Kotest {
         private const val version = "5.4.2"
         const val assertions = "io.kotest:kotest-assertions-core:$version"
+    }
+
+    object MockK {
+        private const val version = "1.12.5"
+        const val library = "io.mockk:mockk:$version"
     }
 
     object AndroidX {
         const val appcompat = "androidx.appcompat:appcompat:1.3.1"
 
         const val activityCompose = "androidx.activity:activity-compose:1.3.1"
-        const val navigationCompose = "androidx.navigation:navigation-compose:2.3.5"
+        const val navigationCompose = "androidx.navigation:navigation-compose:2.5.1"
 
         object Compose {
             const val version = "1.2.0"

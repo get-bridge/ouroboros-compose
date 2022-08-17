@@ -11,4 +11,15 @@
     <string name="login">Login</string>
     <string name="login_succeed">Login succeeded</string>
     <string name="login_failed">Login failed</string>
+    <string name="examples">Examples</string>
+
+    <string name="dictionary">Dictionary</string>
+    <string name="search">Search</string>
+    <string name="search_placeholder">Type a word to look up.</string>
+    <string name="request_error">Sorry, there was a request error. Please try again later.</string>
+    <string name="no_results">No results.</string>
+    <string name="adjective">adjective</string>
+    <string name="exclamation">exclamation</string>
+    <string name="noun">noun</string>
+    <string name="verb">verb</string>
 </resources>

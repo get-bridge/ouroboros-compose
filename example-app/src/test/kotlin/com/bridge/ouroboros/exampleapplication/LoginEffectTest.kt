@@ -2,6 +2,7 @@ package com.bridge.ouroboros.exampleapplication
 
 import com.bridge.ouroboros.compose.test.matches
 import com.bridge.ouroboros.compose.test.runWith
+import com.bridge.ouroboros.exampleapplication.examples.login.LoginService
 import io.kotest.matchers.collections.shouldContain
 import org.junit.Test
 import java.io.IOException

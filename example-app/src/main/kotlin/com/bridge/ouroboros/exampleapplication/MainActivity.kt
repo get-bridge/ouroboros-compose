@@ -7,125 +7,98 @@ package com.bridge.ouroboros.exampleapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.bridge.ouroboros.compose.EventConsumer
-import com.bridge.ouroboros.compose.acquireLoop
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.bridge.ouroboros.exampleapplication.theme.AppTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val loop = acquireLoop(
-                loopInitializer = LoginInit,
-                effectStateFactory = LoginEffect::State
-            )
-
-            LoginScreen(model = loop.model, dispatchEvent = loop::dispatchEvent)
+            KitchenSinkApp()
         }
     }
 }
 
 @Composable
-fun LoginScreen(model: LoginModel, dispatchEvent: EventConsumer<LoginEvent>) {
-    val scaffoldState = rememberScaffoldState()
+fun KitchenSinkApp() {
+    AppTheme {
+        val scaffoldState = rememberScaffoldState()
+        val scope = rememberCoroutineScope()
+        val navController = rememberNavController()
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val navHierarchy = navBackStackEntry?.destination?.hierarchy ?: emptySequence()
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopAppBar {
-                Text(
-                    modifier = Modifier.padding(start = 16.dp),
-                    text = stringResource(id = R.string.app_name),
-                    style = MaterialTheme.typography.h6
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = stringResource(id = R.string.app_name)) },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            scope.launch {
+                                if (scaffoldState.drawerState.isClosed) {
+                                    scaffoldState.drawerState.open()
+                                } else {
+                                    scaffoldState.drawerState.close()
+                                }
+                            }
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                )
+            },
+            drawerContent = {
+                DrawerContent(
+                    currentHierarchy = navHierarchy,
+                    onExampleClicked = { example ->
+                        navController.navigate(example.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+
+                        scope.launch {
+                            scaffoldState.drawerState.close()
+                        }
+                    }
                 )
             }
-        }
-    ) { paddingValues ->
-        if (model.messages.isNotEmpty()) {
-            val message = model.messages.first()
-            val messageText = stringResource(id = message.messageRes)
-            LaunchedEffect(message) {
-                scaffoldState.snackbarHostState.showSnackbar(messageText)
-                dispatchEvent(LoginEvent.ToastShown(message.id))
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(paddingValues)
-        ) {
-            Column(
+        ) { paddingValues ->
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .padding(paddingValues)
             ) {
-                Text(
-                    text = if (model.username.isBlank()) {
-                        stringResource(id = R.string.enter_your_credentials)
-                    } else {
-                        stringResource(id = R.string.welcome, model.username)
-                    },
-                    style = MaterialTheme.typography.h6
-                )
-
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(stringResource(id = R.string.username)) },
-                    value = model.username,
-                    onValueChange = { value -> dispatchEvent(LoginEvent.UsernameChanged(value)) },
-                    enabled = !model.loading,
-                    isError = !model.usernameValid,
-                    singleLine = true
-                )
-
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(stringResource(id = R.string.password)) },
-                    value = model.password,
-                    onValueChange = { value -> dispatchEvent(LoginEvent.PasswordChanged(value)) },
-                    enabled = !model.loading,
-                    visualTransformation = PasswordVisualTransformation(),
-                    isError = !model.passwordValid,
-                    singleLine = true
-                )
-
-                Button(
-                    modifier = Modifier.align(Alignment.End),
-                    enabled = !model.loading,
-                    onClick = { dispatchEvent(LoginEvent.LoginClicked) }) {
-                    Text(text = stringResource(id = R.string.login))
-                }
-            }
-
-            if (model.loading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colors.onSurface.copy(alpha = TextFieldDefaults.BackgroundOpacity))
-                ) {
-                    Card(
-                        modifier = Modifier
-                            .align(Alignment.TopCenter)
-                            .offset(y = 60.dp),
-                        elevation = 4.dp
-                    ) {
-                        CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                CompositionLocalProvider(LocalSnackbarHostState provides scaffoldState.snackbarHostState) {
+                    NavHost(navController = navController, startDestination = knownExamples.first().route) {
+                        knownExamples.forEach { example ->
+                            composable(example.route) {
+                                example.composable()
+                            }
+                        }
                     }
                 }
             }
@@ -133,20 +106,4 @@ fun LoginScreen(model: LoginModel, dispatchEvent: EventConsumer<LoginEvent>) {
     }
 }
 
-@Composable
-@Preview
-fun LoginScreenPreview() {
-    LoginScreen(
-        model = LoginModel(username = "someuser", password = "somepass"),
-        dispatchEvent = {}
-    )
-}
-
-@Composable
-@Preview
-fun LoginScreenLoadingPreview() {
-    LoginScreen(
-        model = LoginModel(username = "someuser", password = "somepass", loading = true),
-        dispatchEvent = {}
-    )
-}
+val LocalSnackbarHostState = compositionLocalOf { SnackbarHostState() }

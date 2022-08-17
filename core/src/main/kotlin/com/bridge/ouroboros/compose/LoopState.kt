@@ -105,12 +105,13 @@ class LoopStateViewModel<MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EF
 
 @Composable
 inline fun <MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : ExecutableEffect<EVENT, EFFECT_STATE>, EFFECT_STATE> acquireLoop(
+    key: String,
     crossinline loopInitializer: LoopInitializer<MODEL, EFFECT>,
     crossinline effectStateFactory: EffectStateFactory<EFFECT_STATE>,
     noinline crashHandler: CrashHandler = {
         Log.e(
             "OuroborosEffects",
-            "Error occured in Ouroboros Effect",
+            "Error occurred in Ouroboros Effects",
             it
         )
     },
@@ -118,24 +119,26 @@ inline fun <MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : Execut
     externalEvents: Flow<EVENT>? = null,
 ): LoopState<MODEL, EVENT, EFFECT, EFFECT_STATE> {
     val viewModel =
-        viewModel<LoopStateViewModel<MODEL, EVENT, EFFECT, EFFECT_STATE>>(factory = remember {
-            object : ViewModelProvider.Factory {
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    val (model, effects) = loopInitializer()
-                    val effectState = effectStateFactory()
+        viewModel<LoopStateViewModel<MODEL, EVENT, EFFECT, EFFECT_STATE>>(
+            key = key,
+            factory = remember {
+                object : ViewModelProvider.Factory {
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                        val (model, effects) = loopInitializer()
+                        val effectState = effectStateFactory()
 
-                    @Suppress("UNCHECKED_CAST")
-                    return LoopStateViewModel(
-                        initialModel = model,
-                        initialEffects = effects,
-                        effectState = effectState,
-                        crashHandler = crashHandler,
-                        debugLogger = debugLogger,
-                        externalEvents = externalEvents
-                    ) as T
+                        @Suppress("UNCHECKED_CAST")
+                        return LoopStateViewModel(
+                            initialModel = model,
+                            initialEffects = effects,
+                            effectState = effectState,
+                            crashHandler = crashHandler,
+                            debugLogger = debugLogger,
+                            externalEvents = externalEvents
+                        ) as T
+                    }
                 }
-            }
-        })
+            })
 
     return viewModel.loop
 }
