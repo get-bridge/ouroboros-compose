@@ -104,8 +104,8 @@ class LoopStateViewModel<MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EF
 }
 
 @Composable
-inline fun <MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : ExecutableEffect<EVENT, EFFECT_STATE>, EFFECT_STATE> acquireLoop(
-    key: String,
+inline fun <reified MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : ExecutableEffect<EVENT, EFFECT_STATE>, EFFECT_STATE> acquireLoop(
+    key: String? = MODEL::class.java.name,
     crossinline loopInitializer: LoopInitializer<MODEL, EFFECT>,
     crossinline effectStateFactory: EffectStateFactory<EFFECT_STATE>,
     noinline crashHandler: CrashHandler = {

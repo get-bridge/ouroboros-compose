@@ -23,7 +23,6 @@ import com.bridge.ouroboros.exampleapplication.theme.AppTheme
 @Composable
 fun DictionaryExample() {
     val loop = acquireLoop(
-        key = "dictionary",
         loopInitializer = { Next.Change<DictionaryModel, DictionaryEffect>(DictionaryModel()) },
         effectStateFactory = DictionaryEffect::State
     )

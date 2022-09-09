@@ -20,7 +20,6 @@ import com.bridge.ouroboros.exampleapplication.theme.AppTheme
 @Composable
 fun LoginExample() {
     val loop = acquireLoop(
-        key = "login",
         loopInitializer = LoginInit,
         effectStateFactory = LoginEffect::State
     )
