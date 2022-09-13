@@ -17,5 +17,5 @@ jobs:
           ./gradlew assemble publishAllPublicationsToGitHubPackagesRepository
         if: startsWith(github.ref, 'refs/tags/')
         env:
-          PACKAGES_USERNAME: ${{ secrets.GITHUB_ACTOR }}
-          PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGES_USERNAME: ${{ secrets.PACKAGES_USERNAME }}
+          PACKAGES_TOKEN: ${{ secrets.PACKAGES_PASSWORD }}
