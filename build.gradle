@@ -27,7 +27,7 @@ subprojects {
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/get-bridge/ouroboros")
+                url = uri("https://maven.pkg.github.com/get-bridge/ouroboros-compose")
                 credentials {
                     username = project.findProperty("gpr.user") ?: System.getenv("PACKAGES_USERNAME")
                     password = project.findProperty("gpr.key") ?: System.getenv("PACKAGES_TOKEN")
