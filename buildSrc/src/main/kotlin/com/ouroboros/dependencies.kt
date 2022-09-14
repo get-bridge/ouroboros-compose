@@ -8,7 +8,7 @@ object Libs {
     const val material = "com.google.android.material:material:1.4.0"
 
     object Kotlin {
-        const val version = "1.7.0"
+        const val version = "1.6.10"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
@@ -45,7 +45,7 @@ object Libs {
         const val navigationCompose = "androidx.navigation:navigation-compose:2.5.1"
 
         object Compose {
-            const val version = "1.2.0"
+            const val version = "1.1.1"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
