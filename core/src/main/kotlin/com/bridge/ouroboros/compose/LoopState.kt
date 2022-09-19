@@ -13,12 +13,12 @@ class LoopState<MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : Ex
     initialModel: MODEL,
     initialEffects: Set<EFFECT>,
     private val effectState: EFFECT_STATE,
-    loopScope: CoroutineScope,
+    parentScope: CoroutineScope,
     private val crashHandler: CrashHandler,
     private val debugLogger: ((String) -> Unit)?
 ) {
-    private val effectsContext =
-        loopScopeCustomizer(loopScope) + CoroutineExceptionHandler { _, throwable ->
+    private val loopScope =
+        loopScopeCustomizer(parentScope) + CoroutineExceptionHandler { _, throwable ->
             if (throwable !is CancellationException) {
                 crashHandler(throwable)
             }
@@ -31,20 +31,25 @@ class LoopState<MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : Ex
 
     init {
         debugLogger?.invoke("Running initial effects: $initialEffects")
-        runEffects(initialEffects)
+
+        loopScope.launch {
+            runEffects(initialEffects)
+        }
     }
 
     fun dispatchEvent(event: EVENT) {
-        val next = event.perform(model)
+        loopScope.launch {
+            val next = event.perform(model)
 
-        next.ifHasModel { newModel ->
-            model = newModel
-            debugLogger?.invoke("Received new model: $model")
-        }
+            next.ifHasModel { newModel ->
+                model = newModel
+                debugLogger?.invoke("Received new model: $model")
+            }
 
-        next.ifHasEffects { effects ->
-            debugLogger?.invoke("Running effects: $effects")
-            runEffects(effects)
+            next.ifHasEffects { effects ->
+                debugLogger?.invoke("Running effects: $effects")
+                runEffects(effects)
+            }
         }
     }
 
@@ -52,7 +57,7 @@ class LoopState<MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : Ex
         for (effect in effects) {
             try {
                 effect.runInContext(
-                    effectsContext.coroutineContext,
+                    loopScope.coroutineContext,
                     effectState,
                     ::dispatchEvent
                 )
