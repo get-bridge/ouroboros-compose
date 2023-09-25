@@ -11,6 +11,8 @@ plugins {
 }
 
 android {
+    namespace = "com.bridge.ouroboros.exampleapplication"
+
     compileSdk 32
 
     defaultConfig {
