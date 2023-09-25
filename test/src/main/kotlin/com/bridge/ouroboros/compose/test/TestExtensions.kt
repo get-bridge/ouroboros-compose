@@ -5,7 +5,6 @@ import com.bridge.ouroboros.compose.ExecutableEffect
 import com.bridge.ouroboros.compose.Next
 import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
 
 infix fun <M, E : ActionableEvent<M, F>, F> M.receives(event: E) =
     event.perform(this)

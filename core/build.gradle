@@ -10,8 +10,6 @@ plugins {
 }
 
 android {
-    namespace = "com.bridge.ouroboros.compose"
-
     compileSdk 33
 
     defaultConfig {
