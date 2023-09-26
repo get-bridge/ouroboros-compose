@@ -8,14 +8,12 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class ExecutableEffect<EVENT, EFFECT_STATE> : CoroutineScope {
 
-    private val job = SupervisorJob()
-
     private var currentContext: CoroutineContext? = null
 
     override val coroutineContext: CoroutineContext
         get() {
             checkNotNull(currentContext) { "coroutineContext must be attached before invoking perform" }
-            return job + defaultDispatcher
+            return   defaultDispatcher
         }
 
     abstract fun EFFECT_STATE.perform(emit: EventConsumer<EVENT>)
@@ -35,7 +33,7 @@ abstract class ExecutableEffect<EVENT, EFFECT_STATE> : CoroutineScope {
 
     companion object {
         @Volatile
-        private var defaultDispatcher: CoroutineDispatcher = Dispatchers.Main
+        private var defaultDispatcher: CoroutineDispatcher = Dispatchers.Unconfined
 
         fun setDefaultDispatcher(dispatcher: CoroutineDispatcher) {
             defaultDispatcher = dispatcher
