@@ -10,11 +10,13 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    namespace = "com.bridge.ouroboros.compose"
+
+    compileSdk 34
 
     defaultConfig {
         minSdk 21
-        targetSdk 33
+        targetSdk 34
     }
 
     buildTypes {
@@ -29,8 +31,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -38,11 +40,11 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.compiler
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
         allWarningsAsErrors = true
     }
 
@@ -52,7 +54,6 @@ android {
 }
 
 dependencies {
-    api Libs.Kotlin.stdlib
     api Libs.Coroutines.core
     api Libs.Coroutines.android
 
