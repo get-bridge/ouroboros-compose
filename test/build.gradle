@@ -8,11 +8,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 31
+    namespace = "com.bridge.ouroboros.compose.test"
+
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
     }
 
     buildTypes {
@@ -27,12 +29,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
         allWarningsAsErrors = true
     }
 
@@ -43,7 +45,7 @@ android {
 
 dependencies {
     api project(':core')
-    implementation 'io.kotest:kotest-assertions-core:5.1.0'
+    implementation 'io.kotest:kotest-assertions-core:5.6.0'
 }
 
 afterEvaluate {
