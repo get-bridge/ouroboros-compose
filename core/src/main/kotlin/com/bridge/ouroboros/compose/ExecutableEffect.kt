@@ -10,10 +10,8 @@ abstract class ExecutableEffect<EVENT, EFFECT_STATE> : CoroutineScope {
     private var currentContext: CoroutineContext? = null
 
     override val coroutineContext: CoroutineContext
-        get() {
-            checkNotNull(currentContext) { "coroutineContext must be attached before invoking perform" }
-            return   defaultDispatcher
-        }
+        get() = currentContext?.let { it + defaultDispatcher }
+            ?: error("coroutineContext must be attached before invoking perform")
 
     abstract fun EFFECT_STATE.perform(emit: EventConsumer<EVENT>)
 
