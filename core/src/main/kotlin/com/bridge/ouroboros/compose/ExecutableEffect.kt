@@ -3,6 +3,7 @@ package com.bridge.ouroboros.compose
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 abstract class ExecutableEffect<EVENT, EFFECT_STATE> : CoroutineScope {
@@ -30,7 +31,7 @@ abstract class ExecutableEffect<EVENT, EFFECT_STATE> : CoroutineScope {
 
     companion object {
         @Volatile
-        private var defaultDispatcher: CoroutineDispatcher = Dispatchers.Main
+        private var defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 
         fun setDefaultDispatcher(dispatcher: CoroutineDispatcher) {
             defaultDispatcher = dispatcher
