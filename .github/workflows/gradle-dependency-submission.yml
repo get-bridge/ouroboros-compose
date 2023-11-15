@@ -1,0 +1,15 @@
+name: Dependency submission
+on:
+  push: {}
+#    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: get-bridge/gradle-dependency-submission-action/.github/workflows/gradle-dependency-submission.yml@v1.0.0
+    with:
+      gradle-build-module: |
+        buildSrc
+    secrets:
+      github-actor: ${{ secrets.GIT_HUB_PACKAGES_ACTOR }}
+      github-token: ${{ secrets.GIT_HUB_PACKAGES_TOKEN }}
