@@ -1,7 +1,7 @@
-name: Dependency submission
+name: Update Dependency Graph
 on:
-  push: {}
-#    branches: [ main ]
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
