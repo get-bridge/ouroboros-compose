@@ -6,9 +6,24 @@ on:
 
 jobs:
   build:
-    uses: get-bridge/gradle-dependency-submission-action/.github/workflows/gradle-dependency-submission.yml@v1.0.0
-    with:
-      gradle-build-module: 'buildSrc'
-    secrets:
-      github-actor: ${{ secrets.GIT_HUB_PACKAGES_ACTOR }}
-      github-token: ${{ secrets.GIT_HUB_PACKAGES_TOKEN }}
+    name: Dependencies
+    runs-on: ubuntu-latest
+    permissions: # The Dependency Submission API requires write permission
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Java
+        uses: actions/setup-java@v3.13.0
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run snapshot action
+        uses: mikepenz/gradle-dependency-submission@v0.9.1
+        with:
+          use-gradlew: true
+          gradle-build-module: buildSrc
+          sub-module-mode: COMBINED
+          include-build-environment: true
