@@ -5,25 +5,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Dependencies
+  dependency-submission:
     runs-on: ubuntu-latest
-    permissions: # The Dependency Submission API requires write permission
-      contents: write
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4.1.1
-
-      - name: Setup Java
-        uses: actions/setup-java@v3.13.0
+      - name: Checkout sources
+        uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Run snapshot action
-        uses: mikepenz/gradle-dependency-submission@v0.9.1
-        with:
-          use-gradlew: true
-          gradle-build-module: buildSrc
-          sub-module-mode: COMBINED
-          include-build-environment: true
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@v3
+        env:
+          PACKAGES_REPOSITORY: https://maven.pkg.github.com/${{ github.repository }}
+          PACKAGES_USERNAME: ${{ secrets.GIT_HUB_PACKAGES_ACTOR }}
+          PACKAGES_TOKEN: ${{ secrets.GIT_HUB_PACKAGES_TOKEN }}
