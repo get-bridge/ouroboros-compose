@@ -57,6 +57,7 @@ dependencies {
     api Libs.Coroutines.core
     api Libs.Coroutines.android
 
+    implementation platform(Libs.AndroidX.Compose.bom)
     implementation Libs.AndroidX.Compose.runtime
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Lifecycle.viewmodel
