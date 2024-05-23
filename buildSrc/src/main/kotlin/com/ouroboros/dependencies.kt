@@ -1,7 +1,7 @@
 package com.ouroboros
 
 object Libs {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:8.4.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:8.4.1"
 
     const val junit = "junit:junit:4.13"
 
@@ -33,14 +33,14 @@ object Libs {
     }
 
     object MockK {
-        private const val version = "1.13.3"
+        private const val version = "1.13.10"
         const val library = "io.mockk:mockk:$version"
     }
 
     object AndroidX {
-        const val appcompat = "androidx.appcompat:appcompat:1.5.0"
+        const val appcompat = "androidx.appcompat:appcompat:1.6.1"
 
-        const val activityCompose = "androidx.activity:activity-compose:1.6.1"
+        const val activityCompose = "androidx.activity:activity-compose:1.8.2"
         const val navigationCompose = "androidx.navigation:navigation-compose:2.5.3"
 
         object Compose {
@@ -64,13 +64,13 @@ object Libs {
             const val rules = "androidx.test:rules:$version"
 
             object Ext {
-                private const val version = "1.1.2"
+                private const val version = "1.1.5"
                 const val junit = "androidx.test.ext:junit-ktx:$version"
             }
         }
 
         object Lifecycle {
-            private const val version = "2.6.1"
+            private const val version = "2.7.0"
             const val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
             const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
             const val viewmodelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
