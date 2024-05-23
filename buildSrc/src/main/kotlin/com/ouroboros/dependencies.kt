@@ -1,14 +1,14 @@
 package com.ouroboros
 
 object Libs {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:8.1.1"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:8.4.1"
 
     const val junit = "junit:junit:4.13"
 
     const val material = "com.google.android.material:material:1.4.0"
 
     object Kotlin {
-        private const val version = "1.9.10"
+        private const val version = "1.9.22"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 
@@ -28,31 +28,34 @@ object Libs {
     }
 
     object Kotest {
-        private const val version = "5.6.0"
+        private const val version = "5.7.2"
         const val assertions = "io.kotest:kotest-assertions-core:$version"
     }
 
     object MockK {
-        private const val version = "1.13.3"
+        private const val version = "1.13.10"
         const val library = "io.mockk:mockk:$version"
     }
 
     object AndroidX {
-        const val appcompat = "androidx.appcompat:appcompat:1.5.0"
+        const val appcompat = "androidx.appcompat:appcompat:1.6.1"
 
-        const val activityCompose = "androidx.activity:activity-compose:1.6.1"
+        const val activityCompose = "androidx.activity:activity-compose:1.8.2"
         const val navigationCompose = "androidx.navigation:navigation-compose:2.5.3"
 
         object Compose {
+            const val bomVersion = "2024.05.00"
             const val version = "1.5.1"
-            const val compiler = "1.5.3"
+            const val compiler = "1.5.9"
 
-            const val runtime = "androidx.compose.runtime:runtime:$version"
-            const val foundation = "androidx.compose.foundation:foundation:${version}"
-            const val ui = "androidx.compose.ui:ui:${version}"
-            const val uiTooling = "androidx.compose.ui:ui-tooling:${version}"
-            const val material = "androidx.compose.material:material:${version}"
-            const val materialIconsExtended = "androidx.compose.material:material-icons-extended:${version}"
+            const val bom = "androidx.compose:compose-bom:$bomVersion"
+            const val runtime = "androidx.compose.runtime:runtime"
+            const val foundation = "androidx.compose.foundation:foundation"
+            const val ui = "androidx.compose.ui:ui"
+            const val uiTooling = "androidx.compose.ui:ui-tooling"
+            const val material = "androidx.compose.material:material"
+            const val materialIconsExtended =
+                "androidx.compose.material:material-icons-extended"
         }
 
         object Test {
@@ -61,13 +64,13 @@ object Libs {
             const val rules = "androidx.test:rules:$version"
 
             object Ext {
-                private const val version = "1.1.2"
+                private const val version = "1.1.5"
                 const val junit = "androidx.test.ext:junit-ktx:$version"
             }
         }
 
         object Lifecycle {
-            private const val version = "2.6.1"
+            private const val version = "2.7.0"
             const val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
             const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
             const val viewmodelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
