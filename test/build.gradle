@@ -45,9 +45,8 @@ android {
 
 dependencies {
     api project(':core')
-    implementation (Libs.Kotest.assertions){
-        exclude group: 'org.jetbrains.kotlin'
-    }
+    implementation(Libs.junit)
+    implementation(Libs.Kotlin.testJUnit)
 }
 
 afterEvaluate {
