@@ -1,10 +1,9 @@
 package com.bridge.ouroboros.compose.test
 
 import com.bridge.ouroboros.compose.Next
-import io.kotest.assertions.withClue
-import io.kotest.matchers.collections.shouldBeEmpty
-import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
-import io.kotest.matchers.shouldBe
+import kotlin.test.junit.JUnitAsserter.assertEquals
+import kotlin.test.junit.JUnitAsserter.assertNull
+import kotlin.test.junit.JUnitAsserter.assertTrue
 
 class NextMatching<M, F>(private val next: Next<M, F>) {
 
@@ -30,15 +29,11 @@ class NextMatching<M, F>(private val next: Next<M, F>) {
     }
 
     fun shouldHaveModel(model: M) {
-        withClue("Expect new model to be $model") {
-            newModel shouldBe model
-        }
+        assertEquals("Expect new model to be $model", model, newModel)
     }
 
     fun shouldNotHaveModel() {
-        withClue("Expected no new model") {
-            newModel shouldBe null
-        }
+        assertNull("Expected no new model", newModel)
     }
 
     fun shouldHaveEffects(vararg effects: F) {
@@ -46,9 +41,7 @@ class NextMatching<M, F>(private val next: Next<M, F>) {
     }
 
     infix fun Set<F>.shouldEmit(effects: Set<F>) {
-        withClue("Expecting effects to be $effects") {
-            newEffects shouldContainExactlyInAnyOrder effects
-        }
+        assertEquals("Expecting effects to be $effects", effects, newEffects)
     }
 
     infix fun Set<F>.shouldEmit(effect: F) {
@@ -56,9 +49,7 @@ class NextMatching<M, F>(private val next: Next<M, F>) {
     }
 
     fun shouldNotHaveEffects() {
-        withClue("No effects should be emitted") {
-            newEffects.shouldBeEmpty()
-        }
+        assertTrue("No effects should be emitted", newEffects.isEmpty())
     }
 
     fun shouldNotChange() {
