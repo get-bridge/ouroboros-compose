@@ -1,7 +1,7 @@
 package com.ouroboros
 
 object Libs {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:8.4.1"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:8.5.0"
 
     const val junit = "junit:junit:4.13"
 
