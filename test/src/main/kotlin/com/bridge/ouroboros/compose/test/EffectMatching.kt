@@ -4,7 +4,7 @@ import kotlin.test.junit.JUnitAsserter.assertEquals
 import kotlin.test.junit.JUnitAsserter.assertTrue
 
 class EffectMatching<E>(
-    capturedEvents: Set<E>
+    capturedEvents: Set<E>,
 ) {
     private var eventsAccessed = false
 
@@ -15,7 +15,7 @@ class EffectMatching<E>(
         }
 
     fun expectEvents(vararg events: E) {
-        assertEquals("Expected events to be $events", events.toSet(), emittedEvents)
+        assertEquals("Expected events to be $events", events.toSet(), emittedEvents.toSet())
     }
 
     fun expectNoEvents() {
