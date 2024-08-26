@@ -12,7 +12,7 @@ plugins {
 allprojects {
     group = "com.bridge.ouroboros.compose"
     val gitVersion: groovy.lang.Closure<String>? by extra
-    version = "SNAPSHOT"// TODO gitVersion()
+    version = "SNAPSHOT" // TODO gitVersion()
 }
 
 subprojects {
