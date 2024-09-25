@@ -2,10 +2,10 @@ plugins {
     id("maven-publish")
     id("com.palantir.git-version") version "3.1.0" apply true
     alias(libs.plugins.androidApplication) apply false
-    alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.android.library) apply false
     alias(libs.plugins.jetbrainsCompose) apply false
     alias(libs.plugins.compose.compiler) apply false
-    alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
 
 }
 
@@ -36,8 +36,4 @@ subprojects {
             }
         }
     }
-}
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
 }
