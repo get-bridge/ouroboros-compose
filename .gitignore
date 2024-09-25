@@ -112,3 +112,6 @@ results/
 
 # Secrets
 secrets.properties
+
+# kotlin
+.kotlin/
