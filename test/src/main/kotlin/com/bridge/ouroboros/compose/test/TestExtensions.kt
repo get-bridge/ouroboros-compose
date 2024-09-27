@@ -21,7 +21,7 @@ infix fun <F : ExecutableEffect<E, S>, E, S> F.runWith(state: S): EffectResult<E
 
 fun <F : ExecutableEffect<E, S>, E, S> F.runWith(
     state: S,
-    context: CoroutineContext,
+    context: CoroutineContext
 ): EffectResult<E> {
     val eventConsumer = TestConsumer<E>()
 
