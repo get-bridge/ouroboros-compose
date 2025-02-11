@@ -21,9 +21,8 @@ kotlin {
         }
     }
 
-
     @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
+            wasmJs {
         browser {
             val projectDirPath = project.projectDir.path
             commonWebpackConfig {
@@ -41,33 +40,24 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-             api(libs.coroutines.core)
-
-            implementation(compose.runtime)
-            implementation(libs.common.lifecycle.viewmodelCompose)
+            api(project(":core"))
+            implementation(libs.coroutines.core)
+            implementation(libs.coroutines.trest)
+            implementation(libs.junit)
+            implementation(libs.kotlin.test)
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
         }
     }
 }
 
 android {
-    namespace = "com.bridge.ouroboros.compose"
-
-    compileSdk = 34
+    namespace = "com.bridge.ouroboros.compose.test"
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21
-    }
-
-    buildTypes {
-        debug {
-            isMinifyEnabled = false
-        }
-        release {
-            isMinifyEnabled = false
-        }
+        targetSdk = 35
     }
 
     compileOptions {

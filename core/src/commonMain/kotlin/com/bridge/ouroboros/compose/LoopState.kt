@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.reflect.KClass
 
 class LoopState<MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : ExecutableEffect<EVENT, EFFECT_STATE>, EFFECT_STATE>(
     initialModel: MODEL,
@@ -76,10 +78,7 @@ class LoopState<MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : Ex
     }
 
     companion object {
-
-        @Volatile
         var loopScopeCustomizer: CoroutineScopeCustomizer = { it }
-
     }
 }
 
@@ -113,7 +112,7 @@ class LoopStateViewModel<MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EF
 
 @Composable
 inline fun <reified MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT : ExecutableEffect<EVENT, EFFECT_STATE>, EFFECT_STATE> acquireLoop(
-    key: String? = MODEL::class.java.name,
+    key: String? = MODEL::class.qualifiedName,
     crossinline loopInitializer: LoopInitializer<MODEL, EFFECT>,
     crossinline effectStateFactory: EffectStateFactory<EFFECT_STATE>,
     noinline crashHandler: CrashHandler = {
@@ -127,7 +126,10 @@ inline fun <reified MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT 
             key = key,
             factory = remember {
                 object : ViewModelProvider.Factory {
-                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    override fun <T : ViewModel> create(
+                        modelClass: KClass<T>,
+                        extras: CreationExtras
+                    ): T {
                         val (model, effects) = loopInitializer()
                         val effectState = effectStateFactory()
 

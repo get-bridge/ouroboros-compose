@@ -29,7 +29,6 @@ abstract class ExecutableEffect<EVENT, EFFECT_STATE> : CoroutineScope {
     }
 
     companion object {
-        @Volatile
         private var defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 
         fun setDefaultDispatcher(dispatcher: CoroutineDispatcher) {

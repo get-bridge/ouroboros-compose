@@ -1,7 +1,8 @@
 package com.bridge.ouroboros.compose.test
 
-import kotlin.test.junit.JUnitAsserter.assertEquals
-import kotlin.test.junit.JUnitAsserter.assertTrue
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
 
 class EffectMatching<E>(
     capturedEvents: Set<E>,
@@ -15,11 +16,11 @@ class EffectMatching<E>(
         }
 
     fun expectEvents(vararg events: E) {
-        assertEquals("Expected events to be $events", events.toSet(), emittedEvents.toSet())
+        assertEquals(events.toSet(), emittedEvents.toSet(),"Expected events to be $events")
     }
 
     fun expectNoEvents() {
-        assertTrue("Expected events to be empty", emittedEvents.isEmpty())
+        assertTrue(emittedEvents.isEmpty(), "Expected events to be empty")
     }
 
     operator fun invoke(block: EffectMatching<E>.() -> Unit) {

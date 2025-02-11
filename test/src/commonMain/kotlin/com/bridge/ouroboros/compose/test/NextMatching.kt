@@ -1,9 +1,10 @@
 package com.bridge.ouroboros.compose.test
 
 import com.bridge.ouroboros.compose.Next
-import kotlin.test.junit.JUnitAsserter.assertEquals
-import kotlin.test.junit.JUnitAsserter.assertNull
-import kotlin.test.junit.JUnitAsserter.assertTrue
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+
 
 class NextMatching<M, F>(private val next: Next<M, F>) {
 
@@ -23,17 +24,18 @@ class NextMatching<M, F>(private val next: Next<M, F>) {
             return next.effects
         }
 
-    val mustHaveModel: M get() {
-        modelAccessed = true
-        return checkNotNull(next.modelOrNull()) { "Expected model but there was none" }
-    }
+    val mustHaveModel: M
+        get() {
+            modelAccessed = true
+            return checkNotNull(next.modelOrNull()) { "Expected model but there was none" }
+        }
 
     fun shouldHaveModel(model: M) {
-        assertEquals("Expect new model to be $model", model, newModel)
+        assertEquals(expected = model, actual = newModel, message = "Expect new model to be $model")
     }
 
     fun shouldNotHaveModel() {
-        assertNull("Expected no new model", newModel)
+        assertNull(newModel, "Expected no new model")
     }
 
     fun shouldHaveEffects(vararg effects: F) {
@@ -41,7 +43,11 @@ class NextMatching<M, F>(private val next: Next<M, F>) {
     }
 
     infix fun Set<F>.shouldEmit(effects: Set<F>) {
-        assertEquals("Expecting effects to be $effects", effects, newEffects)
+        assertEquals(
+            expected = effects,
+            actual = newEffects,
+            message = "Expecting effects to be $effects"
+        )
     }
 
     infix fun Set<F>.shouldEmit(effect: F) {
@@ -49,7 +55,7 @@ class NextMatching<M, F>(private val next: Next<M, F>) {
     }
 
     fun shouldNotHaveEffects() {
-        assertTrue("No effects should be emitted", newEffects.isEmpty())
+        assertTrue(newEffects.isEmpty(), "No effects should be emitted")
     }
 
     fun shouldNotChange() {

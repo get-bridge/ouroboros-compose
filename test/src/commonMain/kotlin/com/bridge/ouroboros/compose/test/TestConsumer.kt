@@ -9,5 +9,4 @@ class TestConsumer<T> : EventConsumer<T> {
     override fun invoke(item: T) {
         items += item
     }
-
 }
