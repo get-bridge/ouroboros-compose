@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.0"
+agp = "8.6.0-alpha08"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -12,28 +12,24 @@ androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.6.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
-compose-plugin = "1.6.11"
+common-lifecycle = "2.8.3"
+
 junit = "4.13.2"
 kotlin = "2.0.0"
 composeBom = "2024.06.00"
 lifecycle = "2.8.4"
+cmp = "1.7.1"
 coroutines = "1.9.0-RC"
 ktor = "2.3.9"
 kotest = "5.7.2"
 mockk = "1.13.10"
 
 
-#object Test {
-#private const val version = "1.5.0"
-#const val core = "androidx.test:core:$version"
-#const val rules = "androidx.test:rules:$version"
-#
-#object Ext {
-#private const val version = "1.1.5"
-
 
 
 [libraries]
+common-lifecycle-viewmodelCompose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "common-lifecycle" }
+
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines-trest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -69,8 +65,9 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "cmp" }
+
 git-version = { id = "com.palantir.git-version", version = "3.0.0" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 

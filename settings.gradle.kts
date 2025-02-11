@@ -1,6 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
-include(":core", ":test", ":example-app")
 rootProject.name = "ouroboros-compose"
 
 dependencyResolutionManagement {
@@ -65,15 +62,20 @@ dependencyResolutionManagement {
 }
 
 pluginManagement {
+    includeBuild("build-logic")
+
     repositories {
-        google {
-            mavenContent {
-                includeGroupAndSubgroups("androidx")
-                includeGroupAndSubgroups("com.android")
-                includeGroupAndSubgroups("com.google")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+include(
+    ":core",
+    ":example-app",
+    ":test",
+)

@@ -3,6 +3,7 @@
  */
 
 plugins {
+    alias(libs.plugins.compose.compiler)
     id("com.android.application")
     kotlin("android")
     kotlin("plugin.serialization") version "1.6.10"
@@ -56,7 +57,7 @@ android {
         }
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -66,29 +67,26 @@ android {
 dependencies {
     implementation(project(":core"))
 
+    api(libs.coroutines.android)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material)
+     implementation(libs.androidx.compose.material)
+    // implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.json)
 
-    api(libs.coroutines.android)
-
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.compose.material)
-
     testImplementation(libs.junit)
     testImplementation(libs.kotest.assertions.core) {
         exclude(group = "org.jetbrains.kotlin")
     }
-
     testImplementation(libs.mockk)
     testImplementation(project(":test"))
 

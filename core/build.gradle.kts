@@ -6,10 +6,10 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
-    id("org.jetbrains.compose")
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
 kotlin {
@@ -42,14 +42,16 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
              api(libs.coroutines.core)
-          //  api(libs.coroutines.android)
 
-            implementation(project.dependencies.platform(libs.androidx.compose.bom))
-            implementation(libs.androidx.lifecycle.viewmodel.ktx)
-            implementation(libs.androidx.compose.runtime)
-            implementation(libs.androidx.compose.ui)
-            implementation(libs.androidx.lifecycle.viewmodel.ktx)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(compose.runtime)
+            implementation(libs.common.lifecycle.viewmodelCompose)
+
+
+            //implementation(project.dependencies.platform(libs.androidx.compose.bom))
+            //implementation(libs.androidx.lifecycle.viewmodel.ktx)
+            //implementation(libs.androidx.compose.ui)
+            //implementation(libs.androidx.lifecycle.viewmodel.ktx)
+            //implementation(libs.androidx.lifecycle.viewmodel.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
