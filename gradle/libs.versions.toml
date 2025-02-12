@@ -1,5 +1,5 @@
 [versions]
-agp = "8.6.1"
+agp = "8.8.0"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -65,7 +65,7 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 
 [plugins]
-androidApplication = { id = "com.android.application", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "cmp" }
