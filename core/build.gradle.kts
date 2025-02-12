@@ -4,6 +4,7 @@
 
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import org.jetbrains.kotlin.gradle.targets.js.yarn.yarn
 
 plugins {
     alias(libs.plugins.android.library)
@@ -24,6 +25,9 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
+        nodejs {
+            yarn.version = "1.22.19"
+        }
         browser {
             val projectDirPath = project.projectDir.path
             commonWebpackConfig {

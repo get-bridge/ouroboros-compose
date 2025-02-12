@@ -1,6 +1,5 @@
 plugins {
     id("maven-publish")
-   // id("com.palantir.git-version") version "3.1.0" apply true
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.git.version) apply true
     alias(libs.plugins.android.library) apply false
