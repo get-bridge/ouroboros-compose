@@ -70,7 +70,7 @@ fun DictionaryScreen(model: DictionaryModel, dispatchEvent: EventConsumer<Dictio
                 } else {
                     items(definitions) { definition ->
                         Definition(
-                            modifier = Modifier.animateItemPlacement(),
+                            modifier = Modifier.animateItem(),
                             definition = definition
                         )
                     }

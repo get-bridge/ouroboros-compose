@@ -15,11 +15,11 @@ androidx-test-junit = "1.2.1"
 common-lifecycle = "2.8.3"
 
 junit = "4.13.2"
-kotlin = "2.0.0"
-composeBom = "2024.06.00"
+kotlin = "2.1.0"
+composeBom = "2025.01.01"
 lifecycle = "2.8.4"
 cmp = "1.7.1"
-coroutines = "1.9.0-RC"
+coroutines = "1.10.1"
 ktor = "2.3.9"
 kotest = "5.7.2"
 mockk = "1.13.10"
@@ -32,7 +32,8 @@ common-lifecycle-viewmodelCompose = { group = "org.jetbrains.androidx.lifecycle"
 
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
-coroutines-trest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+coroutines-core-wasmjs = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-wasm-js", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -54,6 +55,7 @@ androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-lifecycle-viewmodel-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+jetbrains-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "cmp" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }

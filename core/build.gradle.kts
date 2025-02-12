@@ -2,7 +2,7 @@
  * Copyright (C) 2019 - present Instructure, Inc.
  */
 
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
@@ -43,7 +43,8 @@ kotlin {
         commonMain.dependencies {
              api(libs.coroutines.core)
 
-            implementation(compose.runtime)
+           // implementation(compose.runtime)
+            implementation(libs.jetbrains.compose.runtime)
             implementation(libs.common.lifecycle.viewmodelCompose)
         }
         commonTest.dependencies {

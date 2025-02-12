@@ -22,7 +22,7 @@ kotlin {
     }
 
     @OptIn(ExperimentalWasmDsl::class)
-            wasmJs {
+    wasmJs {
         browser {
             val projectDirPath = project.projectDir.path
             commonWebpackConfig {
@@ -41,12 +41,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":core"))
+
+            implementation(libs.jetbrains.compose.runtime)
             implementation(libs.coroutines.core)
-            implementation(libs.coroutines.trest)
+            implementation(libs.coroutines.test)
             implementation(libs.junit)
             implementation(libs.kotlin.test)
-        }
-        commonTest.dependencies {
         }
     }
 }
@@ -57,7 +57,6 @@ android {
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 35
     }
 
     compileOptions {

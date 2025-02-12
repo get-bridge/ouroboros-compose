@@ -3,7 +3,7 @@ package com.bridge.ouroboros.compose.test
 import com.bridge.ouroboros.compose.ActionableEvent
 import com.bridge.ouroboros.compose.ExecutableEffect
 import com.bridge.ouroboros.compose.Next
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlin.coroutines.CoroutineContext
 
 infix fun <M, E : ActionableEvent<M, F>, F> M.receives(event: E) =
@@ -12,7 +12,7 @@ infix fun <M, E : ActionableEvent<M, F>, F> M.receives(event: E) =
 infix fun <F : ExecutableEffect<E, S>, E, S> F.runWith(state: S): EffectResult<E> {
     val eventConsumer = TestConsumer<E>()
 
-    runBlocking {
+    runTest {
         runInContext(coroutineContext, state, eventConsumer)
     }
 
