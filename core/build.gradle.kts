@@ -14,14 +14,19 @@ plugins {
 }
 
 kotlin {
+    applyDefaultHierarchyTemplate()
+
     androidTarget {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "17"
             }
         }
+
+        publishLibraryVariants("release", "debug")
     }
 
+    jvm()
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -45,9 +50,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-             api(libs.coroutines.core)
+            api(libs.coroutines.core)
 
-           // implementation(compose.runtime)
             implementation(libs.jetbrains.compose.runtime)
             implementation(libs.common.lifecycle.viewmodelCompose)
         }

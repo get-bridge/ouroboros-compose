@@ -13,7 +13,7 @@ allprojects {
     group = "com.bridge.ouroboros.compose"
     val gitVersion: groovy.lang.Closure<String>? by extra
     //version = gitVersion?.invoke() ?: "SNAPSHOT"
-    version = "1.1.0-alpha05"
+    version = "1.1.0-alpha06"
 }
 
 subprojects {

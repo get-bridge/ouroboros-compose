@@ -2,7 +2,7 @@
  * Copyright (C) 2019 - present Instructure, Inc.
  */
 
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.jetbrains.kotlin.gradle.targets.js.yarn.yarn
 
@@ -14,13 +14,19 @@ plugins {
 }
 
 kotlin {
+    applyDefaultHierarchyTemplate()
+
     androidTarget {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "17"
             }
         }
+
+        publishLibraryVariants("release", "debug")
     }
+
+    jvm()
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
