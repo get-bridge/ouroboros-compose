@@ -1,9 +1,9 @@
 package com.bridge.ouroboros.compose
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -121,8 +121,7 @@ inline fun <reified MODEL : Any, EVENT : ActionableEvent<MODEL, EFFECT>, EFFECT 
     noinline debugLogger: ((String) -> Unit)? = { println("Ouroboros: $it") },
     externalEvents: Flow<EVENT>? = null,
 ): LoopState<MODEL, EVENT, EFFECT, EFFECT_STATE> {
-    val viewModel =
-        viewModel<LoopStateViewModel<MODEL, EVENT, EFFECT, EFFECT_STATE>>(
+    val viewModel = viewModel<LoopStateViewModel<MODEL, EVENT, EFFECT, EFFECT_STATE>>(
             key = key,
             factory = remember {
                 object : ViewModelProvider.Factory {

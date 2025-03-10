@@ -36,7 +36,7 @@ kotlin {
         browser {
             val projectDirPath = project.projectDir.path
             commonWebpackConfig {
-                outputFileName = "ouroboroscompose.js"
+                outputFileName = "ouroboroscomposetest.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
                     static = (static ?: mutableListOf()).apply {
                         // Serve sources to debug inside browser
@@ -45,7 +45,6 @@ kotlin {
                 }
             }
         }
-        binaries.executable()
     }
 
     sourceSets {

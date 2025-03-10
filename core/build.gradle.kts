@@ -45,15 +45,13 @@ kotlin {
                 }
             }
         }
-        binaries.executable()
     }
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.coroutines.core)
-
+            implementation(libs.coroutines.core)
             implementation(libs.jetbrains.compose.runtime)
-            implementation(libs.common.lifecycle.viewmodelCompose)
+            implementation(libs.common.viewmodel)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
