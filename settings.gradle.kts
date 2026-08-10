@@ -10,22 +10,10 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("com.android")
                 includeGroupAndSubgroups("com.google")
             }
-            content {
-                excludeGroup("com.yarnpkg")
-                excludeGroup("com.github.webassembly")
-                excludeGroup("org.nodejs")
-            }
         }
         mavenCentral()
         maven { url = java.net.URI.create("https://jitpack.io") }
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        mavenCentral {
-            content {
-                excludeGroup("com.yarnpkg")
-                excludeGroup("com.github.webassembly")
-                excludeGroup("org.nodejs")
-            }
-        }
         exclusiveContent {
             forRepository {
                 ivy("https://nodejs.org/dist/") {
