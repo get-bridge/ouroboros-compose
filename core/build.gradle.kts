@@ -7,7 +7,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.multiplatform)
@@ -16,12 +16,14 @@ plugins {
 kotlin {
     applyDefaultHierarchyTemplate()
 
-    androidTarget {
+    android {
+        namespace = "com.bridge.ouroboros.compose"
+        compileSdk = libs.versions.androidCompileSdk.get().toInt()
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
-
-        publishLibraryVariants("release", "debug")
     }
 
     jvm()
@@ -51,29 +53,5 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
-    }
-}
-
-android {
-    namespace = "com.bridge.ouroboros.compose"
-
-    compileSdk = libs.versions.androidCompileSdk.get().toInt()
-
-    defaultConfig {
-        minSdk = libs.versions.androidMinSdk.get().toInt()
-    }
-
-    buildTypes {
-        debug {
-            isMinifyEnabled = false
-        }
-        release {
-            isMinifyEnabled = false
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 }
