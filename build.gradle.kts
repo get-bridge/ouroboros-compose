@@ -15,7 +15,7 @@ plugins {
 
 allprojects {
     group = "com.bridge.ouroboros.compose"
-    version = "1.0.4"
+    version = "1.1.0"
 }
 
 subprojects {
