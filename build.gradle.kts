@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec
+
 plugins {
     id("maven-publish")
     alias(libs.plugins.android.application) apply false
@@ -11,9 +14,7 @@ plugins {
 
 allprojects {
     group = "com.bridge.ouroboros.compose"
-    val gitVersion: groovy.lang.Closure<String>? by extra
-    //version = gitVersion?.invoke() ?: "SNAPSHOT"
-    version = "1.1.0-alpha11"
+    version = "1.1.0-alpha12"
 }
 
 subprojects {
@@ -21,20 +22,26 @@ subprojects {
 
     publishing {
         repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri(
-                    project.findProperty("gpr.repository")?.toString()
-                        ?: System.getenv("PACKAGES_REPOSITORY")
-                        ?: ""
-                )
-                credentials {
-                    username = project.findProperty("gpr.user")?.toString()
-                        ?: System.getenv("PACKAGES_USERNAME")
-                    password = project.findProperty("gpr.key")?.toString()
-                        ?: System.getenv("PACKAGES_TOKEN")
+            val repositoryUrl = project.findProperty("gpr.repository")?.toString()
+                ?: System.getenv("PACKAGES_REPOSITORY")
+            if (!repositoryUrl.isNullOrBlank()) {
+                maven {
+                    name = "GitHubPackages"
+                    url = uri(repositoryUrl)
+                    credentials {
+                        username = project.findProperty("gpr.user")?.toString()
+                            ?: System.getenv("PACKAGES_USERNAME")
+                        password = project.findProperty("gpr.key")?.toString()
+                            ?: System.getenv("PACKAGES_TOKEN")
+                    }
                 }
             }
         }
+    }
+}
+
+rootProject.plugins.withType<YarnPlugin> {
+    rootProject.extensions.configure<YarnRootEnvSpec> {
+        version.set("1.22.19")
     }
 }

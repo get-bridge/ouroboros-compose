@@ -3,8 +3,8 @@
  */
 
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
-import org.jetbrains.kotlin.gradle.targets.js.yarn.yarn
 
 plugins {
     alias(libs.plugins.android.library)
@@ -17,10 +17,8 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
 
         publishLibraryVariants("release", "debug")
@@ -28,24 +26,17 @@ kotlin {
 
     jvm()
 
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        nodejs {
-            yarn.version = "1.22.19"
-        }
         browser {
             val projectDirPath = project.projectDir.path
             commonWebpackConfig {
                 outputFileName = "ouroboroscompose.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(projectDirPath)
-                    }
+                    static(projectDirPath)
                 }
             }
         }
@@ -53,9 +44,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.coroutines.core)
-            implementation(libs.jetbrains.compose.runtime)
-            implementation(libs.common.viewmodel)
+            api(libs.coroutines.core)
+            api(libs.jetbrains.compose.runtime)
+            api(libs.common.viewmodel)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -66,10 +57,10 @@ kotlin {
 android {
     namespace = "com.bridge.ouroboros.compose"
 
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 21
+        minSdk = libs.versions.androidMinSdk.get().toInt()
     }
 
     buildTypes {
@@ -84,9 +75,5 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        compose = true
     }
 }

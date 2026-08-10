@@ -18,6 +18,7 @@ dependencyResolutionManagement {
         }
         mavenCentral()
         maven { url = java.net.URI.create("https://jitpack.io") }
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         mavenCentral {
             content {
                 excludeGroup("com.yarnpkg")
@@ -70,6 +71,9 @@ pluginManagement {
         gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
+}
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
