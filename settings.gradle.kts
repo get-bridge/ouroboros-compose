@@ -10,21 +10,10 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("com.android")
                 includeGroupAndSubgroups("com.google")
             }
-            content {
-                excludeGroup("com.yarnpkg")
-                excludeGroup("com.github.webassembly")
-                excludeGroup("org.nodejs")
-            }
         }
         mavenCentral()
         maven { url = java.net.URI.create("https://jitpack.io") }
-        mavenCentral {
-            content {
-                excludeGroup("com.yarnpkg")
-                excludeGroup("com.github.webassembly")
-                excludeGroup("org.nodejs")
-            }
-        }
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         exclusiveContent {
             forRepository {
                 ivy("https://nodejs.org/dist/") {
@@ -70,6 +59,9 @@ pluginManagement {
         gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
+}
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

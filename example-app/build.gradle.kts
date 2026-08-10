@@ -2,21 +2,30 @@
  * Copyright (C) 2019 - present Instructure, Inc.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.compose.compiler)
-    id("com.android.application")
-    kotlin("android")
-    kotlin("plugin.serialization") version "1.6.10"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        allWarningsAsErrors.set(true)
+        freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+    }
 }
 
 android {
     namespace = "com.bridge.ouroboros.exampleapplication"
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.bridge.ouroboros.exampleapplication"
-        minSdk = 21
-        targetSdk = 35
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -45,11 +54,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-        allWarningsAsErrors = true
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
+
 
     sourceSets {
         getByName("main") {
